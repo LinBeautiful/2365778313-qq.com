@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        computed使用场景
+            计算属性 用来进行计算
+                当运算比较复杂的时候，我们可以使用computed来进行计算
+
+                1 首先在new Vue实例中编写computed属性，属性中自定义方法名，并且在方法中进行计算
+                computed: {
+                    自定义方法名() {
+                        return 执行的计算
+                    }
+                }
+                2 直接将computed里边定义的方法名当做data来使用，进行计算结果的渲染
+                {{自定义方法名}}
+
+
+        watch 监听属性
+            监听属性一般情况下我们可以监听data的变化  也可以后期我们将要学习的路由进行实时监听  还可以对方法进行监听
+
+        filters 过滤器
+            某些时候我们需要对某些数据进行某种方式的绑定
+     -->
+     <div id="app">
+        {{msg}}
+        <p>{{msg.split("").reverse().join("")}}--{{1+1}}</p>
+
+        <span>{{message1 |demo}}</span>
+        <ul>
+            <li v-for="(arr, index) in arrs" :key="index" @click="getData(arr)">{{arr|demo}}</li>
+        </ul>
+
+        <ul>
+            <!-- <li v-for="(book, index) in books" :key="index">《{{book}}》</li> -->
+            <li v-for="(book, index) in books" :key="index">{{book | demo}}</li>
+        </ul>
+     </div>
+     <script>
+         const app=new Vue({
+             el: '#app',
+             data: {
+                 books: ['悟空传','三国志','史记','本草纲目','白夜行','围城','易经'],
+                 arrs: ['全部','精华'],
+                 msg: 'hello world',
+                 msg1: {
+                     name: '张三',
+                     age: 13
+                 },
+                 txt: 'all'
+             },
+             filters: {
+                demo(value) {
+                    console.log(value)
+                    return "《111"+value+"》"
+                }
+             },
+             computed: {
+                 message1() {
+                     return this.msg.split("").reverse().join("")
+                 }
+             },
+            //  mounted() {
+            //      this.getData()
+            //  },
+             watch: {
+                //  msg: function(val, oldVal) {
+                //      console.log(val, oldVal)
+                //  }
+                // msg: 'getData',
+                // msg(val,oldVal) {
+                //     console.log(val,oldVal)
+                // }
+                // 'msg1.name': {
+                //     handler: function(val, oldVal) {
+                //         console.log(val,oldVal)
+                //     },
+                //     deep: true
+                // }
+                // msg: {
+                //     // handler(val, oldVal) {
+                //     //     console.log(11111)
+                //     // },
+                //     handler: function() {
+                //         console.log(2222)
+                //     },
+                //     immediate: true   // 立即执行
+                // }
+                txt: {
+                    handler(val) {
+                        console.log(val)
+                        fetch("https://cnodejs.org/api/v1/topics?tab="+val).then(res=> {
+                            return res.json()
+                        }).then(data=> {
+                            console.log(data)
+                        })
+                    },
+                    immediate: true
+                }
+             },
+             methods: {
+                 getData(i) {
+                     this.txt=i=='全部'?'all':'good'
+                 },
+                //  play() {
+                //      this.getData()
+                //  }
+             }
+         })
+     </script>
+</body>
+</html>

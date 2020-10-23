@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vue.js"></script>
+    <script src="vue-router.js"></script>
+    <script src="axios.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        嵌套路由就是  
+            一个路由组件有包含另外一个路由组件
+            我们为了让内部嵌套的路由组件可以正常的显示，我们需要在当前的路由组件内部写上router-view  
+            路由组件内部的router-view 就是要被渲染的嵌套路由的组件内容
+     -->
+     <div id="app">
+         <!-- 
+             此处渲染的应该是user组件  当地址输入的是 /user
+          -->
+        <router-link to="/user/all">全部</router-link>
+        <router-link to="/user/good">精华</router-link>
+        <router-link to="/user/ask">问答</router-link>
+        <router-link to="/user/job">招聘</router-link>
+        <router-link to="/user/share">分享</router-link>
+        <router-view></router-view>
+     </div>
+     <script>
+         const user={
+             template: `
+                <div class="user">
+                    user
+                    <router-view></router-view>    <!-- 只代表当地址为user/profile 的时候渲染 profile组件在此处-->
+                </div>
+             `
+         }
+         const profile={
+             data() {
+                 return {
+                     msg: 'all'
+                 }
+             },
+             template: `
+                <div class="profile">{{msg}}</div>
+             `,
+             mounted() {
+                 console.log(this.$route.params.profile)
+             },
+             watch: {
+                $route: {
+                    handler(to, from) {
+                        // 对路由变化作出响应...
+                        console.log(to.params.profile)
+                        axios.get('https://cnodejs.org/api/v1/topics?tab='+to.params.profile).then(res=> {
+                            console.log(res.data)
+                        })
+                    },
+                    immediate: true
+                }
+             }
+         }
+         const mine={
+             template: `
+                <div class="mine">mine</div>
+             `
+         }
+         const routes=[
+             {
+                 path: '/user',
+                 component: user,
+                 children: [   
+                    {
+                        path: 'profile',      // 相当于  /user/:profile    profile就是user的子路由组件    如果在user里边配置children 那么在user的组件模板中写的router-view就会被 profile组件所渲染
+                        component: profile
+                    },
+                    {
+                        path: 'mine',
+                        component: mine
+                    }
+                 ]
+             },
+             {
+                path: '/mine',
+                component: mine
+             }
+            //  {
+            //      path: '/user/profile',
+            //      component: profile
+            //  }
+         ]
+         const router=new VueRouter({
+             routes
+         })
+         new Vue({
+             el: '#app',
+             router
+         })
+     </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vue.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <itp></itp>
+        <lit></lit>
+        <textarea name="" id="" cols="30" rows="10">
+    </div>
+    <script>
+        const bus = new Vue()
+        Vue.component('itp', {
+            data() {
+                return {
+                    tex:''
+                }
+            },
+            template: `
+            <div>
+            <textarea type="text" v-model="tex" name="" id="" cols="30" rows="10"></textarea>
+            <button @click="send">发表</button>
+        </div>
+            `,
+            methods: {
+                send(){//发送数据
+                    bus.$emit('sen',this.tex)
+                    // console.log(111);
+                    this.tex=''
+                }
+            },
+        })
+        // 
+        Vue.component('lit', {
+            data() {
+                return {
+                    lis: []
+                }
+            },
+            template: `
+            <ul v-if="lis.length">
+                <li v-for="(li,index) in lis":key="index">{{li}}
+                    <sapn  @click="remove(index)">删除</sapn>
+                    </li>
+                </ul>
+                <p v-else>暂无数据</p>
+            `,
+            mounted() {
+                const that=this
+                bus.$on('sen',(data)=>{
+                that.lis.push(data)
+                })
+            },
+            methods: {
+                remove(i){//发送数据
+                this.lis.splice(i,1)
+                },
+                num(i){
+                    console.log(111);
+                }
+            },
+        })
+        new Vue({
+            el: '#app',
+            data: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>

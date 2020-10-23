@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vue.js"></script>
+    <title>111</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- <ul>
+            <li v-for="(arr,index) in arrs" @click="fn(index)" :key="index">{{arr.title}}</li>
+        </ul>
+        <con v-bind:list="arrs" v-bind:num="num"></con> -->
+
+
+        <!-- <title-t></title-t> -->
+       <!-- <ul>
+           <li v-for="(tit,index) in msg":key="index" @click="fn(index)">{{tit.title}}</li>
+       </ul> -->
+        <!-- <content-t v-on:ms="getdata"></content-t> -->
+        <!-- <title-top v-bind:con="msg" v-bind:num="num"></title-top> -->
+    </div>
+    <script>
+        //父传子
+        //     Vue.component('con', {
+        //         props: ['list', 'num'],
+        //         template: `
+        // <p>{{list[num].content}}</p>
+
+        // `
+        //     })
+        //     new Vue({
+        //         el: '#app',
+
+        //         data: {
+        //             num: 0,
+        //             arrs: [{
+        //                     title: '列表一',
+        //                     content: '内容一'
+        //                 },
+        //                 {
+        //                     title: '列表二',
+        //                     content: '内容二'
+        //                 }
+        //             ]
+        //         },
+        //         methods: {
+        //             fn(i) {
+        //                 this.num = i
+        //             }
+        //         }
+        //     })
+
+        // 子传父
+
+        // zi
+        //     Vue.component('content-t',{
+        //         data(){
+        //             return{
+        //                 msgs:['子传父组件1','子传父组件2','子传父组件3']
+        //             }
+        //         },
+        //         template:`
+        //         <ul>
+        //             <li v-for="(msgg,index) in msgs" :key="index" @click="send(msgg)">{{msgg}}</li>
+        //             </ul>
+
+        //         `,//绑定点击事件
+
+        //         methods:{// 发送的数据
+        //             send(i){
+        //                 this.$emit('ms', i)
+        //                 console.log(i);
+        //             }
+        //         }
+        //     })
+
+        // new Vue({
+        //     el:'#app',
+        //     data:{
+        //         aros:'子传父标题'
+        //     },
+        //     methods:{
+        //        getdata(data){//接收数据
+        //             this.aros=data
+        //         } 
+        //     }
+
+        // })
+
+
+    // Vue.component('title-top',{
+    //     data(){
+    //         return{
+    //             msg:['子传父组件1','子传父组件2','子传父组件3']
+    //         }
+    //     },
+    //     template:`
+    //     <ul>
+    //     <li v-for="(item,index) in msg":key="index" @click="fn(item)">{{item}}</li>    
+    //     </ul>
+    //     `,
+    //     methods:{
+    //         fn(i){
+    //             this.$emit('ms',i)
+    //         }
+    //     }
+    // })
+
+    //     new Vue({
+    //         el: '#app',
+    //         data: {
+    //             title:'子传父'
+    //         },
+    //     methods:{
+    //         getdata(data){
+    //             this.title=data
+    //         }
+    //     }
+    //     })
+
+
+    
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="vue.js"></script>
+    <script src="vue-router.js"></script>
+    <script src="axios.js"></script>
+    <title>vue-router</title>
+</head>
+<div id="app">
+    <router-link to="/child1">全部</router-link>
+    <router-link to="/child2">精华</router-link>
+    <!-- <router-link to="/child3">分享</router-link>
+    <router-link to="/child4">招聘</router-link>
+    <router-link to="/child5">问答</router-link> -->
+    <router-view></router-view>
+</div>
+
+<body>
+
+    <script>
+        //定义组件
+        const child1={
+            data() {
+                return {
+                }
+            },
+            template:`
+            <div>child1</div>
+            `,
+            
+        }
+        const child2={
+            data() {
+                return {
+                }
+            },
+            template:`
+            <div>child2</div>
+            `,
+            
+        }
+        //list
+        const list={
+            data() {
+                return {
+                    
+                }
+            },
+            template:``,
+            methods: {
+                getdata(){
+                    axios.get('https://cnodejs.org/api/v1/topics').then(res=> {
+                            console.log(res.data)
+                        })
+                }
+            },
+        }
+        const routes=[
+            {
+                path:'/child1',
+                component:child1
+            },{
+                path:'/child2',
+                component:child2
+            }
+        ]
+        // 路由地址
+      //定义路由根实例
+        const router = new VueRouter({
+            routes
+        })
+
+        new Vue({
+            el: '#app',
+            data: {
+
+            },
+            router,
+        })
+    </script>
+</body>
+
+</html>

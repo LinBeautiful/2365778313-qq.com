@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vue.js"></script>
+    <title>组件链家</title>
+</head>
+<style>
+    ul{
+        list-style: none;
+    }
+    .tit-top li{
+        width: 25%;
+        display:inline-block;
+    }
+    .active{
+        color: rgb(0, 174, 102);
+    }
+</style>
+<body>
+    <div id="app">
+<futter-top></futter-top>
+    </div>
+    <script>
+        Vue.component('futter-top',{
+            data(){
+                return{
+                    num:0,
+                    title:['区域','价格','房型','更多']
+                }
+            },
+            template:`
+            <ul class="tit-top">
+                <li v-for="(item,index) in title":key="index" @click="title-on" :class="{active:num==index}">{{item}}</li>
+                </ul>
+            `
+        })
+        new Vue({
+            el:'#app',
+            data:{
+
+            },
+            
+        })
+    </script>
+</body>
+</html>

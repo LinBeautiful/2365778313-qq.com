@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="vue.js"></script>
+    <script src="vue-router.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- <router-link to="/login">登录</router-link> -->
+        <router-view></router-view>
+    </div>
+    <script>
+        const index={
+            template:`
+            <div class="index">首页</div>
+            <button>欢迎登录</button>
+            `
+           
+        }
+        const login={
+            template:`
+            <div class="login">登录</div>
+            `
+            
+        }
+            const routes=[
+            {
+                path:'/',
+                component:index,
+            },
+            {
+                path:'/login',
+                component:login,
+            }
+        ]
+        new Vue({
+            el:'#app',
+            data:{
+
+            }
+        })
+    </script>
+</body>
+</html>

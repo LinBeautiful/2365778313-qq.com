@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vue.js"></script>
+    <script src="vue-router.js"></script>
+    <title>vue 路由跳链接</title>
+</head>
+
+<body>
+    <!-- 
+            vue是一个典型的单页面应用
+            单页面
+                只有一个入口页面index.html
+                页面中内容全部是由组件来构成
+                如果想要实现 a列表组件跳转b详情组件  我们就不能使用传统的a标签来实现 你需要使用vue-router  vue路由
+
+            路由
+                你可以简单地认为就是之前html里边的a链接
+
+            组件分为：
+                普通组件和路由组建
+                    普通组件需要注册
+                    路由组件不需要注册可以直接使用
+     -->
+    <div id="app">
+        <!-- router-link相当于 a  ；    to相当于href  -->
+        <router-link to="/login">登录</router-link>
+        <!-- <router-link to="/Personal">go on</router-link> -->
+        <!-- 路由匹配的组件渲染到这里 -->
+        <router-view></router-view>
+    </div>
+    <script>
+        //1.定义路由组件1
+        const index = {
+            template: `
+        <div class="child1"></div>
+        `,
+
+        }
+        const login = {
+            template: `
+            <div class="login">
+            <input type="text" value="">
+            <button @click="roter">go on</button>
+            </div>
+            
+
+         `,
+         methods:{
+            
+            roter(){
+                this.value=111
+                console.log(111);
+            }
+         }
+        }
+        const Personal = {
+            template: `
+            <div class="Personal">
+                <router-link to="/order">个人中心</router-link>
+            </div>
+         `,
+        }
+        const order = {
+            template: `
+            <div class="order">
+            个人订单
+            </div>
+         `,
+        }
+        // const roter={
+        //     template:`
+        //     <div class="roter">
+        //     <button @click="roter">go on</button>
+        //     </div>
+        //     `,
+        //     methods:{
+        //         roter(){
+        //             location.setItem('roter',roter),
+        //             router.push(this.$route.query.returnUrl)
+        //         }
+        //     }
+        // }
+        //2.定义路由
+        const toutes = [{
+                path: '/', //非嵌套路由必须包含一个首斜杠字符。
+                component: index,
+            },
+            {
+                path: '/login',
+                component: login,
+                // children:[
+                //     {
+                //         path:'roter',
+                //         component:roter
+                //     }
+                // ]
+            },
+            {
+
+                path: '/Personal',
+                component: Personal
+
+            }, {
+
+                path: '/order',
+                component: order
+
+            }
+        ]
+        //3.创建router实例 然后传router配置
+        const router = new VueRouter({
+            routes: toutes
+        })
+        // router.beforeEach((to,from,next)=>{
+        //     console.log(to,from);
+            
+        //     if(to.path=='/login'){
+        //     // next()
+        //     }else{
+        //     // next(to.path=='/')
+        //     // if(){
+        //     //     next()
+        //     // }
+        //     }
+        // })
+        //4.创建和挂载根实例
+        new Vue({
+            el: '#app',
+            //挂载
+            router,
+        });
+    </script>
+</body>
+
+</html>

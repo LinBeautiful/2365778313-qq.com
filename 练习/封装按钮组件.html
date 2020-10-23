@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+    <script src="vue.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <v-button type="danger" size='lg'></v-button>
+        <v-button type="info" size='lg' disabled></v-button>
+        <v-button type="warning" size='sm'></v-button>
+        <v-button type="success" size='xs'></v-button>
+    </div>
+    <script>
+        Vue.component("v-button", {
+            props: {
+                type: {
+                    type: String,
+                    default: 'info'
+                },
+                title:{
+                    type:String,
+                    default:'按钮'
+                },
+                size:{
+                    type:String
+                },
+                disabled:{
+                    type:Boolean
+                }
+            },
+            data() {
+                return {
+
+                }
+            },
+            template: `
+            <div>
+                <button :class="['btn-'+type,'btn-'+size]" class="btn" :disabled="disabled" :style="{float:'left','margin-right':'10px'}">{{title}}</button>
+            </div>
+            `,
+        })
+        new Vue({
+            el: '#app',
+            data: {
+            }
+        })
+    </script>
+</body>
+
+</html>

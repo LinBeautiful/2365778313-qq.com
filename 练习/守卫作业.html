@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+    <script src="./vue-router.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <router-view></router-view>
+    </div>
+    <script>
+        const index = {
+            template: `<div class="child1">
+                        <router-link to="/child">首页</router-link>
+                        <router-view></router-view>
+                        <router-link to="/Personal">个人中心</router-link>
+            </div>`,
+        }
+const child={
+    template:`
+    <div>首页
+</div>
+    `,
+}
+        const login = {
+            data() {
+                return {
+                    text: ''
+                }
+            },
+            template: `
+            <div class="login">
+                <input type="text" v-model="text">
+                <button @click="btn">go on</button>
+                <p @click='next'>下一步</p>
+            </div>
+         `,
+            mounted(){
+                console.log(this);
+            },
+            methods: {
+                btn() {
+                    localStorage.setItem("text", this.text)
+                    alert('login success!')
+                },
+                next(){
+                    if(localStorage.getItem('text')){
+                        this.$router.push({
+                            path:'/order'
+                        })
+                    }else{
+                        alert('请先登录！')
+                    }
+                }
+            }
+        }
+
+        const Personal = {
+            template: `
+            <div class="Personal">
+                <router-link to="/order">个人中心</router-link>
+            </div>
+         `,
+        }
+        const order = {
+            template: `
+            <div class="order">
+                个人订单
+            </div>
+         `,
+        }
+
+        const routes = [{
+                path: '/',
+                component: index,
+                children:[
+                    {
+                        path:'/child',
+                        component:child
+
+                    }
+                ]
+            },
+            {
+                path: '/login',
+                component: login
+            },
+            {
+                path: '/Personal',
+                component: Personal,
+
+            },
+            {
+                path: '/order',
+                component: order
+            },
+        ]
+        const router = new VueRouter({
+            routes
+        })
+
+        router.beforeEach((to, from, next) => {
+            if(to.path == '/Personal'){
+                if(localStorage.getItem('text')){
+                    next()
+                }else{
+                    app.$router.push({
+                        path:'/login',
+                        query:{
+                            returnUrl:to.path
+                        }
+                    })
+                }
+            }else{
+                next()
+            }
+        })
+
+        const app = new Vue({
+            el: '#app',
+            router
+        })
+    </script>
+</body>
+
+</html>

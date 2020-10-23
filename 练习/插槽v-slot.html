@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vue.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- <cont> -->
+<!--1.组件插槽 slot这个组件标签 是vue封装好 可以直接拿来使用而不需要注册 具名插槽-->
+            <!-- <p slot="p1">p111111</p>
+            <p slot="p2">p222222</p> -->
+
+
+<!--2.v-solt 只能用在template模板上 -->
+                <!-- <template v-slot:p3>
+                    <p>小红</p>
+                </template>
+                <template v-slot:p4>
+                    <p>小李</p>
+                </template>
+        </cont>
+
+            <cont>
+                <template v-slot:p5>
+                    <span>第二组</span>
+                </template>
+            </cont> -->
+
+<!-- 使用v-slot一般情况下 需要绑定在template标签上边   如果想要将v-slot使用在组件标签上，前提是 组件模板中只有一个slot  独占默认插槽 -->
+<tables>
+    <template #mirror>
+     <mirror></mirror>
+    </template>
+    <template #comb>
+        <comb></comb>
+    </template>
+</tables>
+
+    </div>
+    <script>
+        // Vue.component("cont", {
+        //     data() {
+        //         return {
+        //             // arrs: ['好好学习', '天天向上', '小明']
+        //         }
+        //     },
+        //     // template:`
+        //     // <div>
+        //     // <slot name="p1"></slot>
+        //     // <slot name="p2"></slot>
+        //     // </div>
+        //     // `,
+
+        //     // template: `
+        //     // <div>
+        //     //     <slot name="p5"></slot>
+        //     // <slot name="p3"></slot>
+        //     // <ul>
+        //     // <li v-for="item in arrs">{{item}}</li>
+        //     // </ul>
+        //     // <slot name="p4"></slot>
+        //     // </div>
+        //     // `,
+        // })
+
+
+        Vue.component('tables',{
+            data(){
+                return{
+
+                }
+            },
+            template:`
+            <div class="tables">
+            tables
+            <slot name="mirror"></slot>
+            <slot name="comb"></slot>
+            </div>
+            `,
+        })
+        Vue.component('mirror',{
+            data(){
+                return{
+
+                }
+            },
+            template:`
+            <div>moirror</div>
+            `,
+        })
+        Vue.component('comb',{
+            data(){
+                return{
+
+                }
+            },
+            template:`
+            <div>comb</div>
+            `,
+        })
+
+        new Vue({
+            el: '#app',
+            data: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vue.js"></script>
+    <script src="vuex.js"></script>
+    <script src="axios.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{msg}}--{{$store.state.name}}</p>
+        <!--state用来存储data数据 -->
+        <p>{{$store.getters.sex}}</p><!-- getters用来获取一个新的数据集合 -->
+        <div>
+            <p></p>
+            <button @click="change">mutations修改数据</button>
+        </div>
+    </div>
+    <script>
+        const store = new Vuex.Store({
+            state: {
+                name: 2234342,
+                stus: [{
+                        name: '张三',
+                        age: 18,
+                        sex: '男'
+                    },
+                    {
+                        name: '小红',
+                        age: 25,
+                        sex: '女'
+                    },
+                    {
+                        name: '李四',
+                        age: 15,
+                        sex: '男'
+                    }
+                ]
+            },
+            //getters里边都是函数
+            getters: {
+                sex(state) {
+                    return state.stus.filter(val => val.sex == '女')
+                }
+            },
+            //mutations 唯一可以修改 state的数据入口  同步
+
+            mutations: {
+                change(state,{msg}) {//结构赋值 {msg指的是挂载点里边要改变的值}
+                    state.name=msg//name是store里边的name值
+                }
+            },
+            actions:{
+                getdata(){
+                    axios.get('http://cdn.jandan.net/static/min/ff692f563446bd3bd12d0619ac32c91e8kxwMAFn.14010819.js').then(res=>{
+                        console.log(res,111);
+                    }).catch(err=>{
+                        console.log(err);
+                    })
+                }
+            }
+        })
+
+        new Vue({
+            el: '#app',
+            data: {
+                msg: 111
+            },
+            store,
+            methods: {
+                change() {
+                    this.$store.commit({
+                        type:'change',
+                        msg:666
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

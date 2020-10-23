@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vue.js"></script>
+    <script src="vue-router.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <a href="222.vue">跳转</a>
+    <p>跳转</p>
+    <script>
+        var p=document.getElementsByTagName("p")[0]
+        p.onclick=function() {
+            window.location.href="https://www.baidu.com"
+        }
+    </script> -->
+    <!-- 
+        vue是一个典型的单页面应用
+            单页面
+                只有一个入口页面index.html
+                页面中内容全部是由组件来构成
+                如果想要实现 a列表组件跳转b详情组件  我们就不能使用传统的a标签来实现 你需要使用vue-router  vue路由
+
+            路由
+                你可以简单地认为就是之前html里边的a链接
+
+            组件分为：
+                普通组件和路由组建
+                    普通组件需要注册
+                    路由组件不需要注册可以直接使用
+
+            
+     -->
+    <div id="app">
+        <!-- 相当于html中a标签 to相当于href属性 -->
+        <router-link to="/child1">页面1</router-link>
+        <router-link to="/child2">页面2</router-link>
+        <!-- 路由匹配到的组件将渲染在这里 -->
+        <router-view></router-view>
+    </div>
+
+    <script>
+        //1 定义路由组件
+        const child1 = {
+            template: `
+                <div class="child1">child1</div>
+            `
+        }
+        const child2 = {
+            template: `
+                <div class="child2">child2</div>
+            `
+        }
+        // 2. 定义路由
+        const routes = [ //路线
+            {
+                path: '/child1',
+                component: child1
+            },
+            {
+                path: '/child2',
+                component: child2
+            }
+        ]
+        // 3 创建 router 实例，然后传 `routes` 配置
+        const router = new VueRouter({
+            // routes: routes
+            routes
+        })
+        // 4 创建和挂载根实例
+        new Vue({
+            el: '#app',
+            data: {
+                arr: [true, true, true, true]
+            }
+            // mounted() {}
+        })

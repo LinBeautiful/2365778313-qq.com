@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="Vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>vue全局组件</title>
+</head>
+<style>
+    body {
+        background: #e1e1e1;
+    }
+
+    #demo {
+        font-size: 25px;
+
+        color: tomato;
+    }
+
+    #app {
+        width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        background: #fff;
+        padding: 10px;
+
+    }
+
+    .nav-pills>li.active>a {
+        background: #80bd01 !important;
+        color: white;
+    }
+</style>
+
+<body>
+    <div id="app">
+
+            <tab-title></tab-title>
+
+
+
+    </div>
+    <script>
+        // 组件1 
+        Vue.component('tab-title', {
+            data() {
+
+                return {
+                    num: 0, //索引
+                    tabt: ['all', 'good', 'share', 'job', 'ask'],
+                    tabs: ['全部', '精华', '分享', '招聘', '问答'],
+                }
+            },
+            template: `
+                <div>
+                        <ul class="nav nav-pills">
+                            <li :class="{active:num==index}" :style="{width:' 58px','line-height': '1px'}" v-for="(item,index) in tabs":key="index" @click="tab(index)"><a href="#">{{item}}</a></li>
+                        </ul>
+                        <tab-list v-bind:list="tabs" v-bind:num="num" v-bind:tabt="tabt" ref="child">
+                       
+                        </tab-list>
+                </div>
+                `,
+            methods: {
+                tab(i) {
+                    this.num = i
+                    console.log(i);
+                  
+                    this.$refs.child.fun1(i)
+                }
+            }
+        })
+
+  // 组件2
+        Vue.component('tab-list', {
+            props: ['list','num','tabt'],
+            
+            data() {
+                return {
+                    items:'',
+                    num1: 0, //索引
+                    tabt1: ['all', 'good', 'share', 'job', 'ask'],
+                    tabs1: ['全部', '精华', '分享', '招聘', '问答'],
+                    num2:null,
+                    num3:null,
+                }
+            }, //模板 template
+            template: `
+            <div>
+                <ul :style="{padding:'0'}">
+                    <li v-for="(item,index) in items" :key="index" :style="{padding:'15px 0','list-style':' none',cursor: 'pointer'}">
+                        <span><img :src="item.author.avatar_url" :style="{width:'30px'}"></span>
+               
+                        <span :style="{background:'#e5e5e5'}">{{item.tab=='share'?'分享':item.tab=='all'?'全部':item.tab=='ask'?'问答':item.tab=='job'?'招聘':'精华'}}</span>
+                        <span>{{item.title.length>10?item.title.slice(0,30)+'...':item.title.length}}</span>
+
+                        <span></span>
+                        </li>
+                    </ul>
+                    <tab-lists v-bind:list1="num1" v-on:page="pages"></tab-lists>
+                </div>
+                `,
+            mounted() { //生命周期  钩子函数
+                this.fun()
+            },
+            methods: {
+                pages(page){
+                    this.num2=page
+                    this.fun(this.num3,this.num2)
+                },
+                fun1(i){
+                    this.num3=i
+                  this.fun(this.num3)
+                },
+                fun(i=0,pages=1) {
+                    console.log(this.tabt)
+                    axios.get('https://cnodejs.org/api/v1/topics?limit=10&tab='+this.tabt[i]+'&page='+pages).then(res => {
+                        console.log(res.data.data);
+                        this.items = res.data.data
+                    }).catch(err => {
+                        console.log(err);
+                    })
+                }
+            }
+        })
+
+        // // 组件3
+        Vue.component('tab-lists', {
+            
+            data() {
+                return {
+                    // msg: 'son11同级'
+                    nums:[1,2,3,4,5]
+                }
+            },
+            methods:{
+             send(i){
+                
+                 this.$emit('page',i)
+             }
+
+            },
+            template: `
+            <ul class="pagination">
+                    <li><a href="#">&laquo;</a></li>
+                    <li><a href="#" v-for="(num,index) in nums" :key="index" @click="send(num)">{{num}}</a></li>
+                    <li><a href="#">&raquo;</a></li>
+            </ul>
+            `
+        })
+        new Vue({
+            el: '#app',
+            data: {
+
+            },
+        })
+    </script>
+</body>
+
+</html>

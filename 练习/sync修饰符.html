@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <cont :text.sync="msg"></cont>
+    </div>
+    <script>
+       Vue.component("cont", {
+            props: {
+                text: {
+                    type: Number
+                }
+            },
+            data() {
+                return {
+                    msg: 222
+                }
+            },
+            template: `
+            <p @click="datae">{{text}}</p>
+            `,
+            methods:{
+                datae(){
+                    this.$emit("update:text",789)
+                }
+            }
+        })
+
+        const app=new Vue({
+            el: '#app',
+            data: {
+                msg: 111
+            }
+        })
+    </script>
+
+</body>
+
+</html>

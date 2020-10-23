@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vue.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        {{age}}
+        <cont v-bind:age="age" v-bind:name="name"></cont>
+        <!--  v-bind:list="wen"  v-bind:name="name" -->
+    </div>
+    <script>
+        Vue.component('cont', {
+            props: {
+                age: {
+                    type: [String, Number],
+                    required: true,
+                    validator: function (value) {
+                        return value>=20
+                    
+                    }
+                },
+                name: {
+                    type: [String, Number],
+                    default: 333,
+
+                }
+            },
+            data() {
+                return {
+                    msg: 1111
+                }
+            },
+            template: `
+            <span>{{age}}--{{name}}</span>
+            `,
+        })
+
+        new Vue({
+            el: '#app',
+            data: {
+                age: 20,
+                name: '张三'
+            }
+        })
+    </script>
+</body>
+
+</html>

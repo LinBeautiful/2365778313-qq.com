@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vue.js"></script>
+    <script src="vue-router.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/zoo">动物园</router-link>
+        <router-link to="/park">公园</router-link>
+        <router-view></router-view>
+    </div>
+    <script>
+        const factory={
+            template: `
+                <div class="factory">
+                    产业园
+                </div>
+            `
+        }
+        const zoo={
+            template: `
+                <div class="zoo">
+                    动物园
+                    <router-view></router-view>
+                </div>
+            `
+        }
+        const tiger={
+            template: `
+                <div class="tiger">老虎园</div>
+            `
+        }
+        const lion={
+            template: `
+                <div class="lion">狮子园</div>
+            `
+        }
+        const ticket={
+            template: `
+                <div class="ticket">
+                    售票处
+                    <button @click="buy">买票</button>
+                </div>
+            `,
+            methods: {
+                buy() {
+                    localStorage.setItem('ticket',1)
+                    // this.$route.query.returnUrl
+                    router.push(this.$route.query.returnUrl)
+                }
+            }
+        }
+        const park={
+            template: `
+                <div class="park">
+                    公园
+                </div>
+            `
+        }
+        const routes=[
+            {
+                path: `/`,
+                component: factory
+            },
+            {
+                path: '/zoo',
+                component: zoo,
+                children: [
+                    {
+                        path: 'tiger',
+                        component: tiger,
+                        // meta: {
+                        //     auth: true
+                        // }
+                    },
+                    {
+                        path: 'lion',
+                        component: lion
+                    }
+                ],
+                meta: {
+                    auth: true
+                }
+            },
+            {
+                path: '/park',
+                component: park,
+                meta: {
+                    auth: true
+                }
+            },
+            {
+                path: '/ticket',
+                component: ticket
+            }
+        ]
+        const router=new VueRouter({
+            routes
+        })
+        router.beforeEach((to,from,next)=> {  // next是一个函数   如果守卫里边有next参数  那么必须调用next  否则你的函数不会往下一步执行
+            console.log(to,from)
+            console.log(to.matched.some(item=> item.meta.auth))
+            // if(to.path=='/zoo' || to.path=='/park') {
+            // if(to.meta.auth) {   // 只要meta里边的auth为true就执行以下操作
+            if(to.matched.some(value=> value.meta.auth)){
+                console.log('去买票')
+                if(localStorage.getItem('ticket')) {
+                    next()
+                }else {
+                    next('/ticket?returnUrl='+to.path)
+                }
+            }else {
+                next()
+            }
+        })
+        const app=new Vue({
+            el: '#app',
+            router
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no" >
+    <script src="Vue.js"></script>
+    <title>Document</title>
+</head>
+<style>
+    .box ul{
+list-style: none;
+display: flex;
+    }
+.box li{
+    width: 25%;
+}
+ul{
+    list-style: none;
+}
+.active{
+    color: #ff6700;
+}
+</style>
+<body>
+    <div id="app">
+        <div class="box">
+        <ul>
+            <li v-for="(title,index) in tab":key="index" v-on:click="tabs(title,index)" v-bind:class="{active:index+1==num}">
+                <span>{{title}}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="box1">
+        <ul v-show="num==1">
+            <li v-for="(list,index) in lists0":key="index" v-on:click="cont(index,list)" v-bind:class="{active:index+1==num1}" :style="{marginTop:'20px'}">{{list}}</li>
+        </ul>
+    </div>
+    <div class="box2">
+        <ul  v-show="num==2">
+            <li v-for="(list,index) in lists1":key="index" v-on:click="cont1(index,list)" v-bind:class="{active:index+1==num2}" :style="{marginTop:'20px'}">{{list}}</li>
+        </ul>
+    </div>
+    <div class="box3">
+        <ul  v-show="num==3">
+            <li v-for="(list,index) in lists2":key="index" v-on:click="cont2(index,list)" v-bind:class="{active:index+1==num3}" :style="{marginTop:'20px'}">{{list}}</li>
+        </ul>
+    </div>
+    <div class="box4">
+        <ul  v-show="num==4">
+            <li v-for="(list,index) in lists3":key="index" v-on:click="cont3(index,list)"v-bind:class="{active:index+1==num4}"  :style="{marginTop:'20px'}">{{list}}</li>
+        </ul>
+    </div>
+    </div>
+    <script>
+        new Vue({
+            el:'#app',
+            data:{
+                tab:["区域", "价格", "房型", "更多"],
+                lists0:["二七", "高新", "新郑", "上街", "巩义", "新密", "登封", "中牟"],
+                lists1:["60万", "80万", "100万", "160万", "260万", "320万"],
+                lists2:["一室", "二室", "三室", "四室", "六室", "七室"],
+                lists3:["东", "西", "南", "北", "东北", "西南", "南东", "西北"],
+                num:'',
+                show:'',
+                num1:'',
+                num2:'',
+                num3:'',
+                num4:''
+            },
+            methods:{
+                tabs(t,i){
+                    // console.log(111);
+                    this.num=i+1
+                },
+               cont(index,list){
+                    // console.log(index);
+                    this.tab.splice(this.num-1 ,1,list),
+                    this.num1=index+1
+                    document.getElementsByTagName("span")[0].classList.add('active')
+                },
+                cont1(index,list){
+                    // console.log(index);
+                    this.tab.splice(this.num-1 ,1,list),
+                    this.num2=index+1
+                    document.getElementsByTagName("span")[1].classList.add('active')
+                },
+                cont2(index,list){
+                    // console.log(index);
+                    this.tab.splice(this.num-1 ,1,list),
+                    this.num3=index+1
+                    document.getElementsByTagName("span")[2].classList.add('active')
+                },
+
+                cont3(index,list){
+                    // console.log(index);
+                    this.tab.splice(this.num-1 ,1,list),
+                    this.num4=index+1
+                    document.getElementsByTagName("span")[3].classList.add('active')
+                },
+            }
+        })
+    </script>
+</body>
+</html>
